@@ -1,0 +1,33 @@
+﻿@model List<AppUser>
+
+<a asp-action="Create" asp-controller="User">Add new users</a>
+
+<table class="table table-hover">
+    
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Email Address</th>
+            <th>Roles</th>
+            <th>Assign a role</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (AppUser item in Model)
+        {
+            <tr>
+                <td>@item.UserName</td>
+
+                <td>@item.Email</td>
+
+                <td><getUserInfo user-id="item.Id"></getUserInfo></td>
+
+                <td><a asp-action="AssignRole" asp-route-id="@item.Id" class="btn btn-primary">Rol Ata</a></td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
