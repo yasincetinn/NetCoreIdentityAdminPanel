@@ -5,6 +5,11 @@
 
     <div class="list-group">
 
+        @*
+            Burada foreach kullanmıyoruz. çünkü çıkacak olan yapılar (checkboxlar) aynı Id'ye aynı Name'e sahip olacağı için kullanmadık. O yüzden for döngüsü kullanıyoruz. 
+        *@
+
+
         @for (int i = 0; i < Model.Roles.Count; i++)
         {
             <input type="hidden" asp-for="@Model.Roles[i].RoleName" />

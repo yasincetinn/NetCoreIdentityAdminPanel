@@ -54,7 +54,7 @@ namespace NetCoreIdentityAdminPanel.Controllers
                 AppUser appUser = new()
                 {
                     UserName = model.UserName,
-                    Email = model.Email
+                    Email = model.Email  //buraya password'u almadýk çünkü identity þifrelemesini kullanacaðýz. O yüzden aþaðýya aldýk...
                 };
                 
                 IdentityResult result = await _userManager.CreateAsync(appUser,model.Password);
@@ -63,11 +63,11 @@ namespace NetCoreIdentityAdminPanel.Controllers
                 {
                     #region Admin
 
-                    //AppRole role = await _roleManager.FindByNameAsync("Admin");
+                    //AppRole role = await _roleManager.FindByNameAsync("Admin");  //Admin ismindeki rolü bulabilirse Role nesnesini appRole'e atacak. Bulamazsa approle null kalacak.. 
 
-                    //if (role == null) await _roleManager.CreateAsync(new(){Name = "Admin"});
+                    //if (role == null) await _roleManager.CreateAsync(new(){Name = "Admin"}); //admin isminde bir rol oluþturduk
 
-                    //await _userManager.AddToRoleAsync(appUser, "Admin");
+                    //await _userManager.AddToRoleAsync(appUser, "Admin ");  //appUser deðiþkeninin tuttuðu nesnesini Admin isimli Role'e ekledik.
 
                     #endregion
 
@@ -77,7 +77,7 @@ namespace NetCoreIdentityAdminPanel.Controllers
 
                     if (role == null) await _roleManager.CreateAsync(new(){Name = "Member"});
 
-                    await _userManager.AddToRoleAsync(appUser, "Member");
+                    await _userManager.AddToRoleAsync(appUser, "Member"); //Register olan kullanýcý artýk bu kod sayesinde direkt Member rolüne sahip olacaktýr.
 
                     #endregion
 
@@ -115,14 +115,14 @@ namespace NetCoreIdentityAdminPanel.Controllers
                 {
                     if (!string.IsNullOrWhiteSpace(model.ReturnUrl))
                     {
-                        return Redirect(model.ReturnUrl);
+                        return Redirect(model.ReturnUrl); //Path'e yönlendiriyoruz
                     }
 
                    IList<string> roles = await _userManager.GetRolesAsync(appUser);
 
                     if (roles.Contains("Admin"))
                     {
-                        return RedirectToAction("AdminPanel");//Eger gitmek istediginiz sayfa bir baska Area'da ise routeData parametresine Anonymus type olarak argüman vererek gönderirsiniz return RedirectToAction("AdminPanel",new {Area = "Admin"})
+                        return RedirectToAction("AdminPanel");//Eger gitmek istediginiz sayfa bir baska Area'da ise routeData parametresine Anonymus type olarak argüman vererek gönderirsiniz. return RedirectToAction("AdminPanel",new {Area = "Admin"})
                     }
 
                     else if (roles.Contains("Member"))
@@ -146,7 +146,8 @@ namespace NetCoreIdentityAdminPanel.Controllers
 
                     if (appUser != null)
                     {
-                        int maxFailedAttempts = _userManager.Options.Lockout.MaxFailedAccessAttempts;
+                        int maxFailedAttempts = _userManager.Options.Lockout.MaxFailedAccessAttempts; //Middleware'deki maksimum hata sayýsýnýz
+
                         message = $"Eðer {maxFailedAttempts - await _userManager.GetAccessFailedCountAsync(appUser)} kez daha yanlýþ giriþ yaparsanýz hesabýnýz geçici olarak askýya alýnacaktýr.";
 
                     }

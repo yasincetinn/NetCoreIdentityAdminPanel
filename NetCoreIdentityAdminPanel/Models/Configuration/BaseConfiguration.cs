@@ -8,7 +8,7 @@ namespace NetCoreIdentityAdminPanel.Models.Configuration
     {
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
-            
+            //builder.Property(x => x.CreatedDate).HasColumnName("OluşturulmaTarihi");
         }
     }
 }

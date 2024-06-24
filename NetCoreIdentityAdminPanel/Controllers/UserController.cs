@@ -23,7 +23,10 @@ namespace NetCoreIdentityAdminPanel.Controllers
 
         public IActionResult Index()
         {
-            List<AppUser> nonAdminUsers = _userManager.Users.Where(x => !x.UserRoles.Any(x => x.Role.Name == "Admin")).ToList();
+
+            //List<AppUser> allUsers = _userManager.Users.ToList();  Admin dahil hepsini listeler
+
+            List<AppUser> nonAdminUsers = _userManager.Users.Where(x => !x.UserRoles.Any(x => x.Role.Name == "Admin")).ToList(); //Admin dışındakileri listele
 
             return View(nonAdminUsers);
         }
@@ -62,11 +65,13 @@ namespace NetCoreIdentityAdminPanel.Controllers
         public async Task<IActionResult> AssignRole(AssignRolePageVM model)
         {
             AppUser appUser = await _userManager.Users.SingleOrDefaultAsync(x => x.Id == model.UserID);
+
             IList<string> userRoles = await _userManager.GetRolesAsync(appUser);
 
             foreach (AppRoleResponseModel role in model.Roles)
             {
                 if (role.Checked && !userRoles.Contains(role.RoleName)) await _userManager.AddToRoleAsync(appUser, role.RoleName);
+
                 else if (!role.Checked && userRoles.Contains(role.RoleName)) await _userManager.RemoveFromRoleAsync(appUser, role.RoleName);
             }
 
@@ -95,6 +100,7 @@ namespace NetCoreIdentityAdminPanel.Controllers
                     await _userManager.AddToRoleAsync(appUser, "Member");
                     return RedirectToAction("Index");
                 }
+
                 foreach (IdentityError error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);

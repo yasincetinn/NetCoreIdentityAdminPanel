@@ -6,6 +6,8 @@ using NetCoreIdentityAdminPanel.Models.Entities;
 
 namespace NetCoreIdentityAdminPanel.Models.ContextClasses
 {
+    //Identity kullanacak iseniz IdentityDbContext class'indan miras almalısınız ve eğer 3'ten fazla Identity class'i customize ettiyseniz IdentityDbContext'in generic yapısının tüm tiplerini açıkça vermek zorundasınız.
+
     public class MyContext : IdentityDbContext<AppUser, AppRole, int, IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public MyContext(DbContextOptions<MyContext> opt) : base(opt)

@@ -28,7 +28,7 @@ namespace NetCoreIdentityAdminPanel.CustomTagHelpers
             {
                 html += $"{role},";
             }
-            html = html.TrimEnd(',');
+            html = html.TrimEnd(','); //Sondan virgülü sil.
 
             output.Content.SetHtmlContent(html);
         }
