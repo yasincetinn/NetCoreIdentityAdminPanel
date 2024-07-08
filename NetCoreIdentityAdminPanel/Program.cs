@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using NetCoreIdentityAdminPanel.Models.ContextClasses;
 using NetCoreIdentityAdminPanel.Models.Entities;
@@ -5,7 +6,7 @@ using NetCoreIdentityAdminPanel.Models.Entities;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddFluentValidation(x=> x.RegisterValidatorsFromAssemblyContaining<Program>()); //FluentValidation'u entegre ettik
 
 
 builder.Services.AddIdentity<AppUser,AppRole>(x=>

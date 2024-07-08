@@ -95,6 +95,7 @@ namespace NetCoreIdentityAdminPanel.Controllers
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(appUser, $"{model.UserName}user1");
+
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(appUser, "Member");
